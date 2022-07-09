@@ -3,6 +3,7 @@ from fastf1.core import Laps
 from fastf1 import plotting
 from timple.timedelta import strftimedelta
 import pandas as pd
+import numpy as np
 
 plotting.setup_mpl()
 ff1.Cache.enable_cache('data/cache')
@@ -18,11 +19,13 @@ class session_data:
         list_fastest_laps = list()
         for drv in drivers:
             drvs_fastest_lap = self.session.laps.pick_driver(drv).pick_fastest()
-            list_fastest_laps.append(drvs_fastest_lap)
+            if(not pd.isna(drvs_fastest_lap['LapTime'])):
+                list_fastest_laps.append(drvs_fastest_lap)
         return Laps(list_fastest_laps).sort_values(by='LapTime').reset_index(drop=True)
 
     def get_all_drivers(self):
-        return pd.unique(self.session.laps['Driver'])
+        return pd.unique(self.session.results['Abbreviation'])
 
     def get_team_colors(self):
+        print(self.session.results)
         return self.session.results.groupby('TeamName').first()['TeamColor']
