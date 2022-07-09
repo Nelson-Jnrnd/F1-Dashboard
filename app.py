@@ -14,7 +14,7 @@ def index():
     team_colors = session.get_team_colors()
 
 
-    name = '\'Qualifying\''
+    name = 'Qualifying'
     labels = fastest_laps['Driver'].tolist()
     values = [time.seconds + time.microseconds / 1000000 for time in fastest_laps['LapTime'].tolist()]
     colors = ['rgba' +  hex_to_rgba('#' + team_colors[team], 0.3) for team in fastest_laps['Team'].tolist()]
