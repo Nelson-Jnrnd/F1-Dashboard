@@ -15,7 +15,9 @@ def index():
 
 
     name = 'Qualifying'
+    y_axis_title = 'Lap Time (s)'
+    x_axis_title = 'Driver'
     labels = fastest_laps['Driver'].tolist()
     values = [time.seconds + time.microseconds / 1000000 for time in fastest_laps['LapTime'].tolist()]
     colors = ['rgba' +  hex_to_rgba('#' + team_colors[team], 0.3) for team in fastest_laps['Team'].tolist()]
-    return render_template('graph.html', name=name, labels=labels, values=values, colors=colors)
+    return render_template('graph.html', name=name, labels=labels, values=values, colors=colors, y_axis_title=y_axis_title, x_axis_title=x_axis_title)

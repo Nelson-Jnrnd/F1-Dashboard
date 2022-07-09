@@ -158,6 +158,7 @@
                         <canvas id="barChart" width="900" height="400"></canvas>
                         <script>
                             var ctx = document.getElementById('barChart').getContext('2d');
+                            {% block chart_definition %}
                             var barChart = new Chart(ctx, {
                                 type: 'bar',
                                 data: {
@@ -169,6 +170,7 @@
                                     }
                                 ]
                             },
+                            {% endblock %}
                             options: {
                                 plugins: {
                                     legend: {
@@ -180,7 +182,7 @@
                                     y: {
                                         title: {
                                             display: true,
-                                            text: 'Lap time (seconds)',
+                                            text: {{ '\'' | safe + y_axis_title + '\'' | safe }},
                                             font: {
                                                 size: 16
                                             }
@@ -190,7 +192,7 @@
                                     x: {
                                         title: {
                                             display: true,
-                                            text: 'Driver',
+                                            text: {{ '\'' | safe + x_axis_title + '\'' | safe }},
                                             font: {
                                                 size: 16
                                             }
