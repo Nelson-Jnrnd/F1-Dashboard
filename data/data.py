@@ -5,16 +5,30 @@ from timple.timedelta import strftimedelta
 import pandas as pd
 import numpy as np
 
+
 plotting.setup_mpl()
 ff1.Cache.enable_cache('data/cache')
 
 
 class session_data:
 
+    loaded_data = {}
+    current_session = None
+
     def __init__(self, year, race_number, session_type):
         self.session = ff1.get_session(year, race_number, session_type)
-        self.session.load()
+        self.year = year
+        self.race_number = race_number
+        self.session_type = session_type
+        # key is concatenation of year, race_number and session_type
+
+        self.loaded_data.setdefault(str(year) + str(race_number) + session_type , self)
+        print(self.loaded_data)
     
+    def load_session(self):
+        self.session.load()
+        return self.session
+
     def get_fastest_laps(self, drivers):
         list_fastest_laps = list()
         for drv in drivers:
@@ -29,3 +43,13 @@ class session_data:
     def get_team_colors(self):
         print(self.session.results)
         return self.session.results.groupby('TeamName').first()['TeamColor']
+    
+    @classmethod
+    def get_session(cls, year, race_number, session_type):
+        key = str(year) + str(race_number) + session_type
+        if key in cls.loaded_data:
+            return cls.loaded_data[str(year) + str(race_number) + session_type]
+
+    @classmethod
+    def set_current(cls, data):
+        cls.current_session = data
