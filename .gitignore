@@ -128,5 +128,6 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-app/data/cache/*
-!app/data/cache/.gitkeep
+
+dash_app/data/cache/*
+!dash_app/data/cache/.gitkeep
