@@ -1,2 +1,2 @@
 from app_init import app
-from views import qualifying
+from views import qualifying, telemetry

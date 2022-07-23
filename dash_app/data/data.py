@@ -25,9 +25,13 @@ class session_data:
         self.loaded_data.setdefault(str(year) + str(race_number) + session_type , self)
         print(self.loaded_data)
     
+    # TODO Download only needed data
     def load_session(self):
         self.session.load()
         return self.session
+
+    def get_fastest_lap(self, driver):
+        return self.session.laps.pick_driver(driver).pick_fastest()
 
     def get_fastest_laps(self, drivers):
         list_fastest_laps = list()
