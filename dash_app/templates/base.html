@@ -127,6 +127,9 @@
                placeholder="Session"
                value="{{ request.form['session'] }}"></input>
         <br>
+        <input type="hidden" name="callback" value="{{ request.path }}" />
+        {% block target %}
+        {% endblock %}
         <input type="submit" value="submit"/>
         </form>
     </div>

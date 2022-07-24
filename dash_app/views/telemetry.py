@@ -25,3 +25,9 @@ def telemetry():
         'colors': 'rgba' +  hex_to_rgba('#' + team_colors[fastest_lap['Team']], 0.3),
     }
     return render_template('telemetry.html', **chart_options)
+
+@app.route('/load_session_telemetry')
+@cross_origin()
+def load_session_telemetry():
+    ff1_datatypes.session_data.current_session.load_session()
+    return telemetry()

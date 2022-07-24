@@ -32,7 +32,7 @@ def index():
 @app.route('/loading')
 def loading(url = '/'):
     return render_template('loading.html', destination=url)
-
+    
 @app.route('/session_select_handler', methods=['POST'])
 @cross_origin()
 def session_select_handler():
@@ -51,9 +51,9 @@ def session_select_handler():
             data = ff1_datatypes.session_data(int(request.form['year']), int(request.form['week']), request.form['session'])
 
         ff1_datatypes.session_data.set_current(data)
-        return loading('/load_session')
-
-    return redirect(url_for('index'))
+        return loading(request.form['target'])
+    
+    return redirect(request.form['callback']) # TODO - security issue
 
 @app.route('/load_session')
 @cross_origin()
