@@ -10,16 +10,26 @@
             type: 'scatter',
             data: {
                 label:  {{ '\'' | safe + labels | safe + '\'' | safe }},
-                datasets: [{
-                    data: {{ values | safe }},
-                    backgroundColor: {{ '\'' | safe + colors | safe + '\'' | safe }},
-                    borderColor: 'rgba(255, 99, 132, 1)',
-                    showLine: true
-                }
+                datasets: [
+                    {% with charts = charts %}
+                    {% for chart in charts %}
+                    {
+                        data: {{ chart['values'] | safe }},
+                        backgroundColor: {{ '\'' | safe + chart.colors | safe + '\'' | safe }},
+                        borderColor: {{ '\'' | safe + chart.colors | safe + '\'' | safe }},
+                        showLine: true
+                    },
+                    {% endfor %}
+                    {% endwith %}
             ]
         },
         {% endblock %}
         options: {
+            elements: {
+                point: {
+                    radius: 0
+                }
+            },
             plugins: {
                 legend: {
                     display: false
