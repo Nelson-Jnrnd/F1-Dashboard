@@ -1,0 +1,35 @@
+{%extends "base.html" %}
+
+{% block form %}
+<form method="post" action="{{ url_for('session_select_handler') }}">
+    <!-- <label for="year">Year</label> -->
+    {{ form.csrf_token }}
+    {{ form.year.label }}
+    {{ form.year(size=20) }}
+    <br>
+    <!-- <input type="text" name="year"
+           placeholder="Year"
+           value="{{ request.form['year'] }}"></input> -->
+    {{ form.week.label }}
+    {{ form.week(size=20) }}
+    <br>
+    <!-- <label for="week">Week</label>-->
+    {{ form.session.label }}
+    {{ form.session }}
+    <br>
+    <!--<input type="text" name="week"
+           placeholder="Week"
+           value="{{ request.form['week'] }}"></input>
+    <br>
+    <label for="session">Session</label>
+    <br>
+    <input type="text" name="session"
+           placeholder="Session"
+           value="{{ request.form['session'] }}"></input>
+    <br>-->
+    <input type="hidden" name="callback" value="{{ request.path }}" />
+    {{form.submit.label}}
+    {{form.submit}}
+    {% block target %}
+    {% endblock %}
+    {% endblock %}

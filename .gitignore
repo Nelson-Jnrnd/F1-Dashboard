@@ -130,4 +130,6 @@ dmypy.json
 
 
 dash_app/data/cache/*
+*.sqlite
+
 !dash_app/data/cache/.gitkeep

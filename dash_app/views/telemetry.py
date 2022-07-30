@@ -11,7 +11,7 @@ def hex_to_rgba(hex_color, alpha):
 @cross_origin()
 def telemetry():
     team_colors = ff1_datatypes.session_data.current_session.get_team_colors()
-    drivers = ['HAM', 'BOT']
+    drivers = ['HAM', 'BOT', 'LAT']
     # todo - check if the session is loaded
     charts_data = []
     for driver in drivers:

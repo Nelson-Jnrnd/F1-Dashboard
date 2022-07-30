@@ -1,9 +1,10 @@
+from multiprocessing import Event
 from app_init import app
 from flask import Flask, render_template, request, flash, url_for, redirect
 from flask_cors import CORS, cross_origin
 from PIL import ImageColor
 import data.data as ff1_datatypes
-
+from views.forms import EventForm
 
 current_session = ff1_datatypes.session_data(2022, 1, 'Q')
 current_session.load_session()
@@ -27,7 +28,7 @@ def index():
         'values': [time.seconds + time.microseconds / 1000000 for time in fastest_laps['LapTime'].tolist()],
         'colors': ['rgba' +  hex_to_rgba('#' + team_colors[team], 0.3) for team in fastest_laps['Team'].tolist()],
     }
-    return render_template('graph.html', **chart_options)
+    return render_template('graph.html', form=EventForm(request.form), **chart_options)
 
 @app.route('/loading')
 def loading(url = '/'):
@@ -36,24 +37,20 @@ def loading(url = '/'):
 @app.route('/session_select_handler', methods=['POST'])
 @cross_origin()
 def session_select_handler():
-    if not request.form['year']:
-        flash('Please enter a year', 'error')
-    elif not request.form['week']:
-        flash('Please enter a week', 'error')
-    elif not request.form['session']:
-        flash('Please enter a session', 'error')
-    else:
-        year = request.form['year']
-        week = request.form['week']
-        session = request.form['session']
+    form = EventForm(request.form)
+    if form.validate_on_submit():
+        year = form.year
+        week = form.week
+        session = form.session
         data = ff1_datatypes.session_data.get_session(year, week, session)
         if not data:
-            data = ff1_datatypes.session_data(int(request.form['year']), int(request.form['week']), request.form['session'])
+            data = ff1_datatypes.session_data(int(form.year.data), int(form.week.data), form.session.data)
 
         ff1_datatypes.session_data.set_current(data)
         return loading(request.form['target'])
     
     return redirect(request.form['callback']) # TODO - security issue
+    
 
 @app.route('/load_session')
 @cross_origin()

@@ -107,29 +107,9 @@
                 {% endfor %}
             {% endif %}
         {% endwith %}
-        <form method="post" action="{{ url_for('session_select_handler') }}">
-        <label for="year">Year</label>
-        <br>
-        <input type="text" name="year"
-               placeholder="Year"
-               value="{{ request.form['year'] }}"></input>
-        <br>
-        <label for="week">Week</label>
-        <br>
-        <input type="text" name="week"
-               placeholder="Week"
-               value="{{ request.form['week'] }}"></input>
-        <br>
-        <label for="session">Session</label>
-        <br>
-        <input type="text" name="session"
-               placeholder="Session"
-               value="{{ request.form['session'] }}"></input>
-        <br>
-        <input type="hidden" name="callback" value="{{ request.path }}" />
-        {% block target %}
+        {% block form %}
         {% endblock %}
-        <input type="submit" value="submit"/>
+        <!--<input type="submit" value="submit"/>-->
         </form>
     </div>
 </body>
