@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, flash, url_for, redirect
 from flask_cors import CORS, cross_origin
 from PIL import ImageColor
 import data.data as ff1_datatypes
+from views.forms import EventForm
 
 def hex_to_rgba(hex_color, alpha):
     return str(ImageColor.getrgb(hex_color))[:len(str(ImageColor.getrgb(hex_color))) - 1] + ', ' + str(alpha) + ')'
@@ -31,7 +32,7 @@ def telemetry():
         'labels': ff1_datatypes.session_data.current_session.session.event['EventName'] + ' Speed',
         'charts': charts_data
     }
-    return render_template('telemetry.html', **chart_options)
+    return render_template('telemetry.html', form=EventForm(request.form), **chart_options)
 
 @app.route('/load_session_telemetry')
 @cross_origin()
