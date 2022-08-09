@@ -21,7 +21,7 @@ def index():
     fastest_laps = ff1_datatypes.session_data.current_session.get_fastest_laps(ff1_datatypes.session_data.current_session.get_all_drivers())
     team_colors = ff1_datatypes.session_data.current_session.get_team_colors()
     chart_options = {
-        'title': ff1_datatypes.session_data.current_session.session.event['EventName'] + ' Qualifying',
+        'title': ff1_datatypes.session_data.current_session.session.event['EventName'] + ' ' + ff1_datatypes.session_data.current_session.session.event.get_session_name(ff1_datatypes.session_data.current_session.session_type),
         'x_axis_title': 'Driver',
         'y_axis_title': 'Lap Time (s)',
         'labels': fastest_laps['Driver'].tolist(),
