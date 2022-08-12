@@ -1,4 +1,3 @@
-from multiprocessing import Event
 from app_init import app
 from flask import Flask, render_template, request, flash, url_for, redirect
 from flask_cors import CORS, cross_origin
@@ -45,7 +44,7 @@ def session_select_handler():
         data = ff1_datatypes.session_data.get_session(year, week, session)
         if not data:
             data = ff1_datatypes.session_data(int(form.year.data), int(form.week.data), form.session.data)
-
+        data.selected_drivers = request.form.getlist('drivers')
         ff1_datatypes.session_data.set_current(data)
         return loading(request.form['target'])
     

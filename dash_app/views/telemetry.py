@@ -3,7 +3,7 @@ from flask import Flask, render_template, request, flash, url_for, redirect
 from flask_cors import CORS, cross_origin
 from PIL import ImageColor
 import data.data as ff1_datatypes
-from views.forms import EventForm
+from views.forms import DynamicDriverForm
 
 def hex_to_rgba(hex_color, alpha):
     return str(ImageColor.getrgb(hex_color))[:len(str(ImageColor.getrgb(hex_color))) - 1] + ', ' + str(alpha) + ')'
@@ -11,8 +11,9 @@ def hex_to_rgba(hex_color, alpha):
 @app.route('/telemetry', methods=['GET', 'POST'])
 @cross_origin()
 def telemetry():
+    form = DynamicDriverForm(request.form, ff1_datatypes.session_data.current_session.get_all_drivers())
     team_colors = ff1_datatypes.session_data.current_session.get_team_colors()
-    drivers = ['HAM', 'BOT', 'LAT']
+    drivers = ff1_datatypes.session_data.current_session.selected_drivers
     # todo - check if the session is loaded
     charts_data = []
     for driver in drivers:
@@ -32,7 +33,8 @@ def telemetry():
         'labels': ff1_datatypes.session_data.current_session.session.event['EventName'] + ' Speed',
         'charts': charts_data
     }
-    return render_template('telemetry.html', form=EventForm(request.form), **chart_options)
+    print("tel ", ff1_datatypes.session_data.current_session.get_all_drivers())
+    return render_template('telemetry.html', form=form, **chart_options)
 
 @app.route('/load_session_telemetry')
 @cross_origin()

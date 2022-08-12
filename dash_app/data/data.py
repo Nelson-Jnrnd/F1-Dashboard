@@ -20,6 +20,7 @@ class session_data:
         self.year = year
         self.race_number = race_number
         self.session_type = session_type
+        self.selected_drivers = []
         # key is concatenation of year, race_number and session_type
 
         self.loaded_data.setdefault(str(year) + str(race_number) + session_type , self)
